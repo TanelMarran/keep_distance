@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "@types/node": "^13.13.0",
+    "phaser": "^3.22.0",
+    "sprites": "^0.2.3"
+  },
+  "scripts": {
+    "start": "parcel serve src/index.html --open"
+  },
+  "devDependencies": {
+    "typescript": "^3.8.3"
+  }
+}
