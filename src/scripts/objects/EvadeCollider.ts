@@ -10,9 +10,9 @@ export class EvadeCollider extends Image {
         this.setScale(3,3);
         this.setAlpha(0,0,0,0);
         scene.physics.add.existing(this);
-        this.body.setSize(6,7,false);
-        this.body.setOffset(1,1);
-        this.body.setCircle(8,-4,-3);
+        //this.body.setSize(6,7,false);
+        //this.body.setOffset(1,1);
+        this.body.setCircle(10,-5,-5);
         this.parent = parent;
     }
 }
