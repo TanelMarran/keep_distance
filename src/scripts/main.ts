@@ -14,7 +14,10 @@ const config: GameConfig = {
    },
    backgroundColor: '#CCFFDE',
    scene: [PlaygroundScene],
-   physics: {default: 'arcade'}
+   physics: {default: 'arcade',
+   arcade: {
+      debug: true
+   }}
 };
 
 window.onload = () => {
