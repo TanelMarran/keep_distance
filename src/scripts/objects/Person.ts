@@ -30,6 +30,7 @@ export class Person extends Sprite {
         this.setOrigin(0.5,0.5);
         scene.physics.add.existing(this);
         this.follow = follow;
+        this.movement = new Vector2(0,0);
 
         this.evadeCollider = new EvadeCollider(this.scene, this.x, this.y, this);
         this.body.setSize(6,7,false);
@@ -38,10 +39,10 @@ export class Person extends Sprite {
     }
 
     update(time: number, delta: number): void {
-        if(Phaser.Math.Between(0,50) == 0) { //Random chance to perform an action
-            if(Phaser.Math.Between(1,100) < 20) {
+        if(Phaser.Math.Between(0,30) == 0) { //Random chance to perform an action
+            if(Phaser.Math.Between(1,100) < 50) {
                 this.movementDir = Phaser.Math.Between(0,359)*(Math.PI/180);
-                this.movementMag = Phaser.Math.Between(1,2);
+                this.movementMag = Math.random()*1.5+0.2;
             } else {
                 this.movementMag = 0;
             }
@@ -50,7 +51,6 @@ export class Person extends Sprite {
             if(this.x < 0 || this.y < 0 || this.x > width || this.y > height) {
                 this.movementDir = -new Vector2(width/2-this.x,height/2-this.y).angle();
                 this.movementMag = 0.5;
-                console.log("Going back!")
             }
         }
         this.targetMovement.x = Math.cos(this.movementDir)*this.movementMag;
@@ -69,7 +69,9 @@ export class Person extends Sprite {
             let selfperson : Person = <Person>(<EvadeCollider>self).parent;
             var otherperson : Person = <Person>other;
             const dist: Vector2 = new Vector2(otherperson.x-selfperson.x,otherperson.y-selfperson.y);
-            otherperson.move(dist.scale(0.02));
+            selfperson.movement = selfperson.movement.add(dist.scale(-0.0008));
+            otherperson.movement = otherperson.movement.add(dist.scale(0.0008));
+            //otherperson.move(dist.scale(0.02));
         },null,this.castScene);
         this.scene.physics.overlap(this,this.castScene.populationGroup,function (self, other) {
             let selfperson : Person = <Person>self;
@@ -87,7 +89,13 @@ export class Person extends Sprite {
     }
 
     move(vector: Vector2): void {
+        const width = this.scene.game.scale.width;
+        const height = this.scene.game.scale.height;
+        const pad = 10;
         this.x += vector.x;
         this.y += vector.y;
+        this.x = Phaser.Math.Clamp(this.x,pad,width-pad);
+        this.y = Phaser.Math.Clamp(this.y,pad,height-pad);
+        //this.scene.physics.moveTo(this,this.x+vector.x,this.y+vector.y)
     }
 }

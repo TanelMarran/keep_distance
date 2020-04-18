@@ -12,7 +12,7 @@ export class EvadeCollider extends Image {
         scene.physics.add.existing(this);
         //this.body.setSize(6,7,false);
         //this.body.setOffset(1,1);
-        this.body.setCircle(10,-5,-5);
+        this.body.setCircle(16,-12,-11);
         this.parent = parent;
     }
 }
