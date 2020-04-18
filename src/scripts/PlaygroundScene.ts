@@ -20,8 +20,9 @@ export class PlaygroundScene extends Scene {
     }
 
     create(): void {
-        this.populationGroup.add(new Person(this,10,10,'person',true));
-        this.populationGroup.add(new Person(this,10,10,'person'));
+        this.populationGroup.add(new Person(this,80,80,'person',true));
+        this.populationGroup.add(new Person(this,160,160,'person'));
+
     }
 
     update(time: number, delta: number): void {

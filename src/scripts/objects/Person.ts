@@ -12,6 +12,8 @@ export class Person extends Image {
     maxMovement = 5;
     movementAcceleration = 0.2;
 
+    evadeCollider: Collider;
+
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string = 'person',follow = false, frame?: string | integer) {
         super(scene,x,y,texture,frame);
 
@@ -19,6 +21,7 @@ export class Person extends Image {
         this.setScale(3,3);
         scene.physics.add.existing(this);
         this.follow = follow;
+        this.evadeCollider = new Collider(this.x,this.y,50);
 
         scene.events.on('update',this.update,this);
         this.castScene = <PlaygroundScene>scene;
@@ -26,14 +29,18 @@ export class Person extends Image {
 
     update(time: number, delta: number): void {
         this.rotation = Math.sin(time/180*2)*0.25;
+        this.z = -this.y;
         if(this.follow) {
             this.x += 0.1 * (this.scene.game.input.mousePointer.x - this.x);
             this.y += 0.1 * (this.scene.game.input.mousePointer.y - this.y);
         }
         this.move(this.movement);
         //Collisions with
-        this.scene.physics.overlap(this,this.castScene.populationGroup,function (self, other) {
-            console.log('New Created');//this.populationGroup.add(new Person(this,50,50,'person'));
+        this.scene.physics.overlap(this.evadeCollider,this.castScene.populationGroup,function (self, other) {
+            let selfperson : Person = <Person>self;
+            var otherperson : Person = <Person>other;
+            const dist: Vector2 = new Vector2(otherperson.x-selfperson.x,otherperson.y-selfperson.y);
+            otherperson.move(dist.scale(0.1));
         },null,this.castScene)
     }
 
