@@ -17,7 +17,7 @@ export class Person extends Sprite {
     evadeCollider: EvadeCollider;
     evadeMovement: Vector2;
     line: Line;
-    evasionAmount = 0;//0.1;
+    evasionAmount = 1.5;
 
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string = 'person',follow = false, frame?: string | integer) {
         super(scene,x,y,texture,frame);
@@ -69,8 +69,10 @@ export class Person extends Sprite {
             let selfperson : Person = <Person>(<EvadeCollider>self).parent;
             var otherperson : Person = <Person>other;
             if(selfperson != otherperson) {
-                const dist: Vector2 = new Vector2(selfperson.x - otherperson.x, selfperson.y - otherperson.y);
-                selfperson.evadeMovement = selfperson.evadeMovement.normalize().add(dist.normalize()).normalize().scale(selfperson.evasionAmount);
+                const dist: Vector2 = new Vector2((selfperson.x - otherperson.x), (selfperson.y - otherperson.y));
+                dist.x = Math.max(0,80-Math.abs(dist.x))*Math.sign(dist.x);
+                dist.y = Math.max(0,80-Math.abs(dist.y))*Math.sign(dist.y);
+                selfperson.evadeMovement = dist.scale(selfperson.evasionAmount).scale(0.001);
             }
         },null,this.castScene);
         this.scene.physics.overlap(this,this.castScene.populationGroup,function (self, other) {

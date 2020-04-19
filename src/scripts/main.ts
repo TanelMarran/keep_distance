@@ -9,8 +9,8 @@ const config: GameConfig = {
    // @ts-ignore
    pixelArt: true,
    scale : {
-      width: 320,
-      height: 320,
+      width: 640,
+      height: 480,
       zoom: 2
    },
    backgroundColor: '#CCFFDE',
