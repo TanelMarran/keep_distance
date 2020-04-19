@@ -3,6 +3,7 @@ import Vector2 = Phaser.Math.Vector2;
 import {EvadeCollider} from "./EvadeCollider";
 import Sprite = Phaser.Physics.Arcade.Sprite;
 import Line = Phaser.GameObjects.Line;
+import GameObject = Phaser.GameObjects.GameObject;
 
 export class Person extends Sprite {
     castScene : PlaygroundScene;
@@ -47,10 +48,10 @@ export class Person extends Sprite {
         if(Phaser.Math.Between(0,200) == 0) { //Random chance to perform an action
             let width = this.scene.game.scale.width;
             let height = this.scene.game.scale.height;
-            let pad = 20;
+            let pad = 12;
             this.targetCoord.x = Phaser.Math.Between(pad,width-pad);
             this.targetCoord.y = Phaser.Math.Between(pad,height-pad);
-            this.maxMovement = Math.random()+0.25;
+            this.maxMovement = 1.25;
         }
         let distance_to_target = new Vector2(this.targetCoord.x-this.x,this.targetCoord.y-this.y);
         if(distance_to_target.length() < 10) {
@@ -69,18 +70,22 @@ export class Person extends Sprite {
             let selfperson : Person = <Person>(<EvadeCollider>self).parent;
             var otherperson : Person = <Person>other;
             if(selfperson != otherperson) {
-                const dist: Vector2 = new Vector2((selfperson.x - otherperson.x), (selfperson.y - otherperson.y));
-                dist.x = Math.max(0,80-Math.abs(dist.x))*Math.sign(dist.x);
-                dist.y = Math.max(0,80-Math.abs(dist.y))*Math.sign(dist.y);
-                selfperson.evadeMovement = dist.scale(selfperson.evasionAmount).scale(0.001);
+                selfperson.evade(otherperson);
             }
         },null,this.castScene);
+        //Collisions with other people
         this.scene.physics.overlap(this,this.castScene.populationGroup,function (self, other) {
-            let selfperson : Person = <Person>self;
-            var otherperson : Person = <Person>other;
-            const dist: Vector2 = new Vector2(otherperson.x-selfperson.x,otherperson.y-selfperson.y);
+            const selfperson: Person = <Person>self;
+            const otherperson: Person = <Person>other;
+            const dist: Vector2 = new Vector2(otherperson.x - selfperson.x, otherperson.y - selfperson.y);
             otherperson.move(dist.scale(0.08));
             selfperson.setTint(0x3fc1b2);
+        },null,this.castScene);
+        //Collisions with the mouse
+        this.scene.physics.overlap(this.evadeCollider,this.castScene.mouseArea,function (self) {
+            const selfperson : Person = <Person>(<EvadeCollider>self).parent;
+            const mousepos: Vector2 = new Vector2(this.input.mousePointer.x,this.input.mousePointer.y);
+            selfperson.evade(mousepos);
         },null,this.castScene);
         this.move(this.movement.add(this.evadeMovement));
     }
@@ -90,6 +95,13 @@ export class Person extends Sprite {
         let dist: Vector2 = tvector.subtract(svector);
         dist = dist.normalize().scale(Math.min(this.movementAcceleration,dist.length()));
         return svector.add(dist);
+    }
+
+    evade(other: Vector2 | Person): void {
+        const dist: Vector2 = new Vector2((this.x - other.x), (this.y - other.y));
+        dist.x = Math.max(0,80-Math.abs(dist.x))*Math.sign(dist.x);
+        dist.y = Math.max(0,80-Math.abs(dist.y))*Math.sign(dist.y);
+        this.evadeMovement = this.evadeMovement.add(dist.scale(this.evasionAmount).scale(0.001));
     }
 
     move(vector: Vector2): void {
