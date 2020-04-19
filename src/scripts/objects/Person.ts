@@ -98,4 +98,10 @@ export class Person extends Sprite {
         this.y = Phaser.Math.Clamp(this.y,pad,height-pad);
         //this.scene.physics.moveTo(this,this.x+vector.x,this.y+vector.y)
     }
+
+    removeSelf(): void {
+        this.evadeCollider.destroy();
+        this.scene.events.removeListener('update',this.update,this);
+        this.destroy();
+    }
 }

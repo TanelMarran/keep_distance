@@ -36,6 +36,8 @@ export class PlaygroundScene extends Scene {
     }
 
     removePerson(): void {
-        //TODO implement
+        if(this.populationGroup.getLength() > 0) {
+            (<Person>this.populationGroup.getChildren().pop()).removeSelf();
+        }
     }
 }
