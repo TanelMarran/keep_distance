@@ -2,6 +2,7 @@ import Scene = Phaser.Scene;
 import Text = Phaser.GameObjects.Text;
 import {Person} from "./objects/Person";
 import Group = Phaser.Physics.Arcade.Group;
+import Graphics = Phaser.GameObjects.Graphics;
 
 export class PlaygroundScene extends Scene {
     person: Person;
@@ -21,7 +22,7 @@ export class PlaygroundScene extends Scene {
     }
 
     create(): void {
-        for(var i = 0; i < 15; i++) {
+        for(var i = 0; i < 1; i++) {
             this.addPerson();        }
         //this.person = new Person(this,Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height),'person');
         //this.text = this.add.text(10,10,this.person.movement.length().toString());
