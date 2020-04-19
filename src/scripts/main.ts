@@ -29,6 +29,8 @@ window.onload = () => {
    add_button.onclick = addPerson;
    let remove_button: HTMLElement = document.getElementById('remove-button');
    remove_button.onclick = removePerson;
+   let pause_button: HTMLElement = document.getElementById('pause-button');
+   pause_button.onclick = pauseGame;
    loadChart();
 };
 
@@ -38,5 +40,9 @@ function addPerson(): void {
 
 function removePerson(): void {
    (<PlaygroundScene>game.scene.getScene('PlaygroundScene')).removePerson();
+}
+
+function pauseGame(): void {
+   game.scene.pause('PlaygroundScene');
 }
 
