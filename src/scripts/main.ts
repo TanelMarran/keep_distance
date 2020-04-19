@@ -17,7 +17,8 @@ const config: GameConfig = {
    physics: {default: 'arcade',
    arcade: {
       debug: false
-   }}
+   }},
+   parent: 'game'
 };
 
 window.onload = () => {
