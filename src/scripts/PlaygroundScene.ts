@@ -22,8 +22,7 @@ export class PlaygroundScene extends Scene {
 
     create(): void {
         for(var i = 0; i < 15; i++) {
-            this.populationGroup.add(new Person(this,Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height),'person'));
-        }
+            this.addPerson();        }
         //this.person = new Person(this,Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height),'person');
         //this.text = this.add.text(10,10,this.person.movement.length().toString());
     }
@@ -32,4 +31,11 @@ export class PlaygroundScene extends Scene {
         //this.text.setText(this.person.movement.length().toString());
     }
 
+    addPerson(): void {
+        this.populationGroup.add(new Person(this,Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height),'person'));
+    }
+
+    removePerson(): void {
+        //TODO implement
+    }
 }
