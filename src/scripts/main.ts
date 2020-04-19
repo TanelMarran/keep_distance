@@ -1,6 +1,7 @@
 import {Game} from 'phaser';
 import GameConfig = Phaser.Types.Core.GameConfig;
 import {PlaygroundScene} from "./PlaygroundScene";
+import {loadChart} from "./chart"
 
 let game: Game;
 
@@ -28,6 +29,7 @@ window.onload = () => {
    add_button.onclick = addPerson;
    let remove_button: HTMLElement = document.getElementById('remove-button');
    remove_button.onclick = removePerson;
+   loadChart();
 };
 
 function addPerson(): void {
@@ -37,3 +39,4 @@ function addPerson(): void {
 function removePerson(): void {
    (<PlaygroundScene>game.scene.getScene('PlaygroundScene')).removePerson();
 }
+
