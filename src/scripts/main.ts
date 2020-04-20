@@ -10,15 +10,15 @@ const config: GameConfig = {
    // @ts-ignore
    pixelArt: true,
    scale : {
-      width: 640,
-      height: 480,
-      zoom: 2
+      width: 320,
+      height: 320,
+      zoom: 4
    },
    backgroundColor: '#CCFFDE',
    scene: [PlaygroundScene],
    physics: {default: 'arcade',
    arcade: {
-      debug: false
+      debug: true
    }},
    parent: 'game'
 };

@@ -20,12 +20,15 @@ export class PlaygroundScene extends Scene {
     }
 
     preload(): void {
-        this.load.image('person',require('../sprites/person.png'));
+        this.load.image('person_1',require('../sprites/person_1.png'));
+        this.load.image('person_2',require('../sprites/person_2.png'));
+        this.load.image('person_3',require('../sprites/person_3.png'));
+        this.load.image('person_4',require('../sprites/person_4.png'));
     }
 
     create(): void {
         this.mouseArea = new EvadeCollider(this,this.game.input.mousePointer.x, this.game.input.mousePointer.y,null);
-        this.mouseArea.body.setCircle(3,1,2);
+        this.mouseArea.body.setCircle(3,12,12);
         for(var i = 0; i < 1; i++) {
             this.addPerson();
         }
@@ -36,11 +39,12 @@ export class PlaygroundScene extends Scene {
     update(time: number, delta: number): void {
         this.mouseArea.x = this.game.input.mousePointer.x;
         this.mouseArea.y = this.game.input.mousePointer.y;
-        //this.text.setText(this.person.movement.length().toString());
+        //this.text.setText(this.person.movement.length().toString())
     }
 
     addPerson(): void {
-        this.populationGroup.add(new Person(this,Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height),'person'));
+        const image = 'person_'+Phaser.Math.Between(1,4);
+        this.populationGroup.add(new Person(this,Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height),image));
     }
 
     removePerson(): void {

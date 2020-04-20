@@ -18,15 +18,15 @@ export class Person extends Sprite {
     evadeCollider: EvadeCollider;
     evadeMovement: Vector2;
     line: Line;
-    evasionAmount = 1.5;
+    evasionAmount = 1.3;
 
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string = 'person',follow = false, frame?: string | integer) {
         super(scene,x,y,texture,frame);
         this.castScene = <PlaygroundScene>scene;
 
         scene.add.existing(this);
-        this.setScale(3,3);
-        this.setOrigin(0.5,0.5);
+        //this.setScale(2,2);
+        //this.setOrigin(0.5,0.5);
         scene.physics.add.existing(this);
         this.follow = follow;
         this.movement = new Vector2(0,0);
@@ -35,10 +35,8 @@ export class Person extends Sprite {
         this.targetCoord = new Vector2(this.x,this.y);
 
         this.evadeCollider = new EvadeCollider(this.scene, this.x, this.y, this);
-        this.body.setSize(6,7,false);
-        this.body.setCircle(3,1,2);
-        this.line = new Line(scene,this.x,this.y,0,0,this.movement.x*30,this.movement.y*30,0xff0000,1);
-        scene.add.existing(this.line);
+        //this.body.setSize(6,7,false);
+        this.body.setCircle(8,0,0);
         scene.events.on('update',this.update,this);
     }
 
@@ -99,8 +97,8 @@ export class Person extends Sprite {
 
     evade(other: Vector2 | Person): void {
         const dist: Vector2 = new Vector2((this.x - other.x), (this.y - other.y));
-        dist.x = Math.max(0,80-Math.abs(dist.x))*Math.sign(dist.x);
-        dist.y = Math.max(0,80-Math.abs(dist.y))*Math.sign(dist.y);
+        dist.x = Math.max(0,60-Math.abs(dist.x))*Math.sign(dist.x);
+        dist.y = Math.max(0,60-Math.abs(dist.y))*Math.sign(dist.y);
         this.evadeMovement = this.evadeMovement.add(dist.scale(this.evasionAmount).scale(0.001));
     }
 
