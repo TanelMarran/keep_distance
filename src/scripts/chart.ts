@@ -1,5 +1,8 @@
-export function loadChart() {
-    let ctx = document.getElementById('population-chart').getContext('2d');
+import {Chart} from 'chart.js';
+
+export function loadChart(): Chart {
+    let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("population-chart");
+    let ctx: CanvasRenderingContext2D = canvas.getContext("2d");
     let chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
@@ -29,5 +32,5 @@ export function loadChart() {
         });
         chart.update();
     }
-    console.log("Chart loaded");
+    return chart;
 }

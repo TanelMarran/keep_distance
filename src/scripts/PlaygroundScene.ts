@@ -1,11 +1,8 @@
 import Scene = Phaser.Scene;
 import Text = Phaser.GameObjects.Text;
-import {Person} from "./objects/Person";
+import {Health, Person} from "./objects/Person";
 import Group = Phaser.Physics.Arcade.Group;
-import Graphics = Phaser.GameObjects.Graphics;
 import {EvadeCollider} from "./objects/EvadeCollider";
-import Vector2 = Phaser.Math.Vector2;
-import Dict = NodeJS.Dict;
 
 export class PlaygroundScene extends Scene {
     mouseArea: EvadeCollider;
@@ -50,5 +47,19 @@ export class PlaygroundScene extends Scene {
         if(this.populationGroup.getLength() > 0) {
             (<Person>this.populationGroup.getChildren()[0]).removeSelf();
         }
+    }
+
+    getHealthCount(): [number, number, number] {
+        let counts: [number, number, number] = [0,0,0];
+        const healthKeys = Object.keys(Health);
+        for(let p of this.populationGroup.getChildren()) {
+            let person: Person = <Person>p;
+            for(let index in healthKeys) {
+                if(person.health == healthKeys[index]) {
+                    counts[index]++;
+                }
+            }
+        }
+        return counts;
     }
 }

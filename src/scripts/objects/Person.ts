@@ -4,7 +4,7 @@ import {EvadeCollider} from "./EvadeCollider";
 import Sprite = Phaser.Physics.Arcade.Sprite;
 import Line = Phaser.GameObjects.Line;
 
-enum Health {
+export enum Health {
     Healthy = "Healthy",
     Infected = "Infected",
     Recovered = "Recovered"

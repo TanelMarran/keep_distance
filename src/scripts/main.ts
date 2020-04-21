@@ -1,9 +1,12 @@
 import {Game} from 'phaser';
 import GameConfig = Phaser.Types.Core.GameConfig;
 import {PlaygroundScene} from "./PlaygroundScene";
-import {loadChart} from "./chart"
+import {Chart} from 'chart.js';
+import {loadChart} from "./chart";
 
 let game: Game;
+let playground: PlaygroundScene;
+let chart: Chart;
 
 const config: GameConfig = {
    title: "Quarantine",
@@ -30,8 +33,8 @@ window.onload = () => {
    let remove_button: HTMLElement = document.getElementById('remove-button');
    remove_button.onclick = removePerson;
    let pause_button: HTMLElement = document.getElementById('pause-button');
-   pause_button.onclick = pauseGame;
-   loadChart();
+   pause_button.onclick = getHealthCounts;
+   chart = loadChart();
 };
 
 function addPerson(): void {
@@ -46,3 +49,6 @@ function pauseGame(): void {
    game.scene.pause('PlaygroundScene');
 }
 
+function getHealthCounts(): void {
+   console.log((<PlaygroundScene>game.scene.getScene('PlaygroundScene')).getHealthCount());
+}
