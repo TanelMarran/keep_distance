@@ -2,7 +2,7 @@ import {Game} from 'phaser';
 import GameConfig = Phaser.Types.Core.GameConfig;
 import {PlaygroundScene} from "./PlaygroundScene";
 import {Chart} from 'chart.js';
-import {loadChart} from "./chart";
+import {addData, loadChart} from "./chart";
 
 let game: Game;
 let playground: PlaygroundScene;
@@ -33,8 +33,9 @@ window.onload = () => {
    let remove_button: HTMLElement = document.getElementById('remove-button');
    remove_button.onclick = removePerson;
    let pause_button: HTMLElement = document.getElementById('pause-button');
-   pause_button.onclick = getHealthCounts;
-   chart = loadChart();
+   pause_button.onclick = pauseGame;
+   let chart: Chart = loadChart();
+   let timerId = setInterval(() => updateChart(chart), 1000);
 };
 
 function addPerson(): void {
@@ -49,6 +50,11 @@ function pauseGame(): void {
    game.scene.pause('PlaygroundScene');
 }
 
-function getHealthCounts(): void {
-   console.log((<PlaygroundScene>game.scene.getScene('PlaygroundScene')).getHealthCount());
+function getHealthCounts(): [number, number, number] {
+   return (<PlaygroundScene>game.scene.getScene('PlaygroundScene')).getHealthCount();
+}
+
+function updateChart(chart: Chart): void {
+   const values: [number, number, number] = getHealthCounts();
+   addData(chart,'',values[1]);
 }
