@@ -3,7 +3,6 @@ import Vector2 = Phaser.Math.Vector2;
 import {EvadeCollider} from "./EvadeCollider";
 import Sprite = Phaser.Physics.Arcade.Sprite;
 import Line = Phaser.GameObjects.Line;
-import GameObject = Phaser.GameObjects.GameObject;
 
 enum Health {
     Healthy = "Healthy",
@@ -27,6 +26,8 @@ export class Person extends Sprite {
     evasionAmount = 1.3;
     health: Health;
 
+    infectionTime: number;
+
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string = 'person',follow = false, frame?: string | integer) {
         super(scene,x,y,texture,frame);
         this.castScene = <PlaygroundScene>scene;
@@ -38,7 +39,10 @@ export class Person extends Sprite {
         this.targetMovement = new Vector2(0,0);
         this.evadeMovement = new Vector2(0,0);
         this.targetCoord = new Vector2(this.x,this.y);
-        this.health = Health.Healthy;
+        this.setHealth(Health.Healthy);
+        if(Phaser.Math.Between(0,5) == 0) {
+            this.setHealth(Health.Infected);
+        }
 
         this.evadeCollider = new EvadeCollider(this.scene, this.x, this.y, this);
         this.body.setCircle(8,0,0);
@@ -52,6 +56,8 @@ export class Person extends Sprite {
         this.evadeCollider.y = this.y;
 
         this.pickDestination();
+
+        this.recoverVirus(delta);
 
         this.rotation = Math.sin(time/180*6)*0.25*(Math.min(this.movement.length()/3));
         this.movement = this.moveVectors(this.movement,this.targetMovement);
@@ -71,7 +77,7 @@ export class Person extends Sprite {
             const otherperson: Person = <Person>other;
             const dist: Vector2 = new Vector2(otherperson.x - selfperson.x, otherperson.y - selfperson.y);
             otherperson.move(dist.scale(0.08));
-            selfperson.health = Person.transmitVirus(selfperson.health,otherperson.health);
+            selfperson.transmitVirus(otherperson.health);
         },null,this.castScene);
 
         //Collisions with the mouse
@@ -102,21 +108,21 @@ export class Person extends Sprite {
         }
     }
 
-    moveVectors(svector: Vector2, tvector: Vector2): Vector2 {
+    public moveVectors(svector: Vector2, tvector: Vector2): Vector2 {
         tvector = tvector.normalize().scale(Math.min(this.maxMovement,tvector.length()));
         let dist: Vector2 = tvector.subtract(svector);
         dist = dist.normalize().scale(Math.min(this.movementAcceleration,dist.length()));
         return svector.add(dist);
     }
 
-    evade(other: Vector2 | Person): void {
+    public evade(other: Vector2 | Person): void {
         const dist: Vector2 = new Vector2((this.x - other.x), (this.y - other.y));
         dist.x = Math.max(0,60-Math.abs(dist.x))*Math.sign(dist.x);
         dist.y = Math.max(0,60-Math.abs(dist.y))*Math.sign(dist.y);
         this.evadeMovement = this.evadeMovement.add(dist.scale(this.evasionAmount).scale(0.001));
     }
 
-    move(vector: Vector2): void {
+    public move(vector: Vector2): void {
         let length = vector.length();
         vector = vector.normalize().scale(Math.min(this.maxMovement,length));
         this.x += vector.x;
@@ -130,16 +136,40 @@ export class Person extends Sprite {
         //this.scene.physics.moveTo(this,this.x+vector.x,this.y+vector.y)
     }
 
-    removeSelf(): void {
+    public removeSelf(): void {
         this.evadeCollider.destroy();
         this.scene.events.removeListener('update',this.update,this);
         this.destroy();
     }
 
-    static transmitVirus(self: Health, other: Health): Health {
-        if(self == Health.Healthy && other == Health.Infected) {
-            return Health.Infected;
+    private transmitVirus(other: Health): void {
+        if(this.health == Health.Healthy && other == Health.Infected) {
+            this.setHealth(Health.Infected);
         }
-        return self;
+    }
+
+    private setHealth(health: Health): void {
+        this.health = health;
+        switch (this.health) {
+            case Health.Healthy:
+                this.setTint(0xffffff);
+                break;
+            case Health.Infected:
+                this.setTint(0xff0000);
+                this.infectionTime = 10+Phaser.Math.Between(0,10);
+                break;
+            case Health.Recovered:
+                this.setTint(0x0000ff);
+                break;
+        }
+    }
+
+    private recoverVirus(delta: number): void {
+        if(this.health == Health.Infected) {
+            this.infectionTime -= delta/1000;
+            if(this.infectionTime <= 0) {
+                this.setHealth(Health.Recovered);
+            }
+        }
     }
 }

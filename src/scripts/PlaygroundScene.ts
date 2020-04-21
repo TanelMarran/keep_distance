@@ -5,6 +5,7 @@ import Group = Phaser.Physics.Arcade.Group;
 import Graphics = Phaser.GameObjects.Graphics;
 import {EvadeCollider} from "./objects/EvadeCollider";
 import Vector2 = Phaser.Math.Vector2;
+import Dict = NodeJS.Dict;
 
 export class PlaygroundScene extends Scene {
     mouseArea: EvadeCollider;
@@ -32,8 +33,6 @@ export class PlaygroundScene extends Scene {
         for(var i = 0; i < 1; i++) {
             this.addPerson();
         }
-        //this.person = new Person(this,Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height),'person');
-        //this.text = this.add.text(10,10,this.person.movement.length().toString());
     }
 
     update(time: number, delta: number): void {
@@ -48,8 +47,8 @@ export class PlaygroundScene extends Scene {
     }
 
     removePerson(): void {
-        if(this.populationGroup.getLength() > 1) {
-            (<Person>this.populationGroup.getChildren()[1]).removeSelf();
+        if(this.populationGroup.getLength() > 0) {
+            (<Person>this.populationGroup.getChildren()[0]).removeSelf();
         }
     }
 }
