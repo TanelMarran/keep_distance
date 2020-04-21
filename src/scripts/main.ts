@@ -2,20 +2,19 @@ import {Game} from 'phaser';
 import GameConfig = Phaser.Types.Core.GameConfig;
 import {PlaygroundScene} from "./PlaygroundScene";
 import {Chart} from 'chart.js';
-import {addData, loadChart} from "./chart";
+import {addData, loadChart, updateMaxY} from "./chart";
 
 let game: Game;
-let playground: PlaygroundScene;
-let chart: Chart;
+let isPaused: boolean;
 
 const config: GameConfig = {
    title: "Quarantine",
    // @ts-ignore
    pixelArt: true,
    scale : {
-      width: 160,
-      height: 160,
-      zoom: 4
+      width: 320,
+      height: 240,
+      zoom: 2
    },
    backgroundColor: '#CCFFDE',
    scene: [PlaygroundScene],
@@ -28,14 +27,14 @@ const config: GameConfig = {
 
 window.onload = () => {
    game = new Game(config);
-   let add_button: HTMLElement = document.getElementById('add-button');
+   const add_button: HTMLElement = document.getElementById('add-button');
    add_button.onclick = addPerson;
-   let remove_button: HTMLElement = document.getElementById('remove-button');
+   const remove_button: HTMLElement = document.getElementById('remove-button');
    remove_button.onclick = removePerson;
-   let pause_button: HTMLElement = document.getElementById('pause-button');
+   const pause_button: HTMLElement = document.getElementById('pause-button');
    pause_button.onclick = pauseGame;
-   let chart: Chart = loadChart();
-   let timerId = setInterval(() => updateChart(chart), 1000);
+   const chart: Chart = loadChart();
+   const timerId = setInterval(() => updateChart(chart), 100);
 };
 
 function addPerson(): void {
@@ -47,7 +46,13 @@ function removePerson(): void {
 }
 
 function pauseGame(): void {
-   game.scene.pause('PlaygroundScene');
+   if(!game.scene.isPaused('PlaygroundScene')) {
+      game.scene.pause('PlaygroundScene');
+      isPaused = true;
+   } else {
+      game.scene.resume('PlaygroundScene');
+      isPaused = false;
+   }
 }
 
 function getHealthCounts(): [number, number, number] {
@@ -55,6 +60,9 @@ function getHealthCounts(): [number, number, number] {
 }
 
 function updateChart(chart: Chart): void {
-   const values: [number, number, number] = getHealthCounts();
-   addData(chart,'',values[1]);
+   if(!isPaused) {
+      const values: [number, number, number] = getHealthCounts();
+      updateMaxY(chart, values.reduce((a, b) => a + b, 0));
+      addData(chart, '', values[1]);
+   }
 }

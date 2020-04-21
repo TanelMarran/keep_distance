@@ -1,6 +1,10 @@
 import {Chart} from 'chart.js';
 
-const graphXticks = 10;
+const graphXticks = 30*6;
+let labels = [];
+for (var i = 0; i < graphXticks; i++) {
+    labels.push('');
+}
 
 export function loadChart(): Chart {
     let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("population-chart");
@@ -21,33 +25,31 @@ export function loadChart(): Chart {
 
         // The data for our dataset
         data: {
-            labels: [],
+            labels: labels,
             datasets: [{
-                label: 'My First dataset',
+                label: 'Infected',
                 backgroundColor: 'rgb(204,255,222)',
                 borderColor: 'rgb(204,255,222)',
                 data: []
             }]
         }
     });
-    let plot_button = document.getElementById('plot-button');
-    plot_button.onclick = () => {
-        addData(chart, 13, Math.round(Math.random()*13+1))
-    };
     return chart;
 }
 
 export function addData(chart: Chart, label : number | string, data: number): void {
-    chart.data.labels.push(label);
+    //chart.data.labels.push(label);
 
     chart.data.datasets.forEach((dataset) => {
-        if(dataset.data.length >= graphXticks) {
-            chart.data.labels.shift();
-            chart.data.labels.pop();
+        if(dataset.data.length > graphXticks) {
             dataset.data.shift();
             dataset.data.pop();
         }
         dataset.data.push(data);
     });
     chart.update();
+}
+
+export function updateMaxY(chart: Chart, max: number): void {
+    chart.options.scales.yAxes[0].ticks.max = Math.max(1,max);
 }
