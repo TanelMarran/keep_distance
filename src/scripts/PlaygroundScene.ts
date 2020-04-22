@@ -2,11 +2,11 @@ import Scene = Phaser.Scene;
 import Text = Phaser.GameObjects.Text;
 import {Health, Person} from "./objects/Person";
 import Group = Phaser.Physics.Arcade.Group;
-import {EvadeCollider} from "./objects/EvadeCollider";
+import {CircleCollider} from "./objects/CircleCollider";
 import {Doggy} from "./objects/Doggy";
 
 export class PlaygroundScene extends Scene {
-    mouseArea: EvadeCollider;
+    mouseArea: CircleCollider;
     peopleGroup: Group;
     moveablesGroup: Group;
     text: Text;
@@ -29,7 +29,7 @@ export class PlaygroundScene extends Scene {
     }
 
     create(): void {
-        this.mouseArea = new EvadeCollider(this,this.game.input.mousePointer.x, this.game.input.mousePointer.y,null);
+        this.mouseArea = new CircleCollider(this,this.game.input.mousePointer.x, this.game.input.mousePointer.y,null);
         this.mouseArea.body.setCircle(3,12,12);
         new Doggy(this,Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height));
         for(var i = 0; i < 1; i++) {

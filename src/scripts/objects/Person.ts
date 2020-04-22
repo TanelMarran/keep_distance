@@ -1,6 +1,6 @@
 import {PlaygroundScene} from "../PlaygroundScene";
 import Vector2 = Phaser.Math.Vector2;
-import {EvadeCollider} from "./EvadeCollider";
+import {CircleCollider} from "./CircleCollider";
 import Sprite = Phaser.Physics.Arcade.Sprite;
 import Line = Phaser.GameObjects.Line;
 import {Moveable} from "./Moveable";
@@ -12,12 +12,15 @@ export enum Health {
 }
 
 export class Person extends Moveable {
-    evadeCollider: EvadeCollider;
+    evadeCollider: CircleCollider;
     evadeMovement: Vector2;
-    evasionAmount = 1.3;
+    evasionAmountMax = 1.3;
+    evasionAmount = this.evasionAmountMax;
 
     health: Health;
     infectionTime: number;
+
+    attractionTime = 0;
 
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string = 'person', frame?: string | integer) {
         super(scene,x,y,texture,frame);
@@ -25,12 +28,21 @@ export class Person extends Moveable {
         this.castScene.peopleGroup.add(this);
         this.evadeMovement = new Vector2(0,0);
         this.targetCoord = new Vector2(this.x,this.y);
-        this.evadeCollider = new EvadeCollider(this.scene, this.x, this.y, this);
+        this.evadeCollider = new CircleCollider(this.scene, this.x, this.y, this);
         this.body.setCircle(8,0,0);
 
         this.setHealth(Health.Healthy);
         if(Phaser.Math.Between(0,5) == 0) {
             this.setHealth(Health.Infected);
+        }
+    }
+
+    handleAttraction(): void {
+        this.attractionTime = Math.max(0,this.attractionTime-1);
+        if(this.attractionTime > 0) {
+            this.evasionAmount = 0;
+        } else {
+            this.evasionAmount = this.evasionAmountMax;
         }
     }
 
@@ -41,6 +53,8 @@ export class Person extends Moveable {
         this.evadeCollider.y = this.y;
 
         this.pickDestination();
+
+        this.handleAttraction();
 
         this.recoverVirus(delta);
 
@@ -119,7 +133,7 @@ export class Person extends Moveable {
 
         //Collisions with evasion circle
         this.scene.physics.overlap(this.evadeCollider,this.castScene.peopleGroup,function (self, other) {
-            let selfperson : Person = <Person>(<EvadeCollider>self).parent;
+            let selfperson : Person = <Person>(<CircleCollider>self).parent;
             var otherperson : Person = <Person>other;
             if(selfperson != otherperson) {
                 selfperson.evade(otherperson);
@@ -128,7 +142,7 @@ export class Person extends Moveable {
 
         //Collisions with the mouse
         this.scene.physics.overlap(this.evadeCollider,this.castScene.mouseArea,function (self) {
-            const selfperson : Person = <Person>(<EvadeCollider>self).parent;
+            const selfperson : Person = <Person>(<CircleCollider>self).parent;
             const mousepos: Vector2 = new Vector2(this.input.mousePointer.x,this.input.mousePointer.y);
             selfperson.evade(mousepos);
         },null,this.castScene);

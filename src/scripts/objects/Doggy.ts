@@ -1,8 +1,16 @@
 import {Moveable} from "./Moveable";
+import {CircleCollider} from "./CircleCollider";
+import Vector2 = Phaser.Math.Vector2;
+import {Person} from "./Person";
 
 export class Doggy extends Moveable {
+    attractionCollider: CircleCollider;
+
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string = 'doggy', frame?: string | integer) {
-        super(scene,x,y,texture,frame)
+        super(scene,x,y,texture,frame);
+
+        this.attractionCollider = new CircleCollider(scene,x,y,this);
+        this.attractionCollider.setCircle(48,-32,-32);
     }
 
     protected applyAnimation(time: number): void {
@@ -15,6 +23,22 @@ export class Doggy extends Moveable {
             this.setScale(Math.abs(this.scaleX),this.scaleY);
             this.setOffset(0,0);
         }
+    }
+
+    protected checkOverlaps(): void {
+        super.checkOverlaps();
+        //Attract people
+        this.scene.physics.overlap(this.attractionCollider,this.castScene.peopleGroup,function (s: CircleCollider, o : Person) {
+            const self: Doggy = (<Doggy>s.parent);
+            o.targetCoord = new Vector2(self.x,self.y);
+            o.attractionTime = 3;
+        },null,this.castScene);
+    }
+
+    update(time: number, delta: number): void {
+        this.attractionCollider.x = this.x;
+        this.attractionCollider.y = this.y;
+        super.update(time, delta);
     }
 }
 
