@@ -22,6 +22,7 @@ export class PlaygroundScene extends Scene {
         this.load.image('person_2',require('../sprites/person_2.png'));
         this.load.image('person_3',require('../sprites/person_3.png'));
         this.load.image('person_4',require('../sprites/person_4.png'));
+        this.load.image('doggy',require('../sprites/doggy.png'));
     }
 
     create(): void {
@@ -45,7 +46,7 @@ export class PlaygroundScene extends Scene {
 
     removePerson(): void {
         if(this.populationGroup.getLength() > 0) {
-            (<Person>this.populationGroup.getChildren()[0]).removeSelf();
+            (<Person>this.populationGroup.getChildren()[0]).destroy();
         }
     }
 
