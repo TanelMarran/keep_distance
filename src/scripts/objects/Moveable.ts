@@ -20,6 +20,7 @@ export abstract class Moveable extends Sprite {
 
         scene.add.existing(this);
         scene.physics.add.existing(this);
+        this.setOrigin(0.5,0.5);
         this.movement = new Vector2(0,0);
         this.targetMovement = new Vector2(0,0);
 
