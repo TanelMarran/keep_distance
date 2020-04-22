@@ -1,6 +1,7 @@
 import {PlaygroundScene} from "../PlaygroundScene";
 import Vector2 = Phaser.Math.Vector2;
 import Sprite = Phaser.Physics.Arcade.Sprite;
+import {Person} from "./Person";
 
 export abstract class Moveable extends Sprite {
     castScene : PlaygroundScene;
@@ -14,6 +15,8 @@ export abstract class Moveable extends Sprite {
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string = 'person', frame?: string | integer) {
         super(scene,x,y,texture,frame);
         this.castScene = <PlaygroundScene>scene;
+
+        this.castScene.moveablesGroup.add(this);
 
         scene.add.existing(this);
         scene.physics.add.existing(this);
@@ -85,6 +88,19 @@ export abstract class Moveable extends Sprite {
 
     protected moveBody(): void {
         this.movement = this.moveVectors(this.movement,this.targetMovement);
+
+        this.checkOverlaps();
+
         this.move(this.movement);
+    }
+
+    protected checkOverlaps(): void {
+        //Overlaps with other Moveables
+        this.scene.physics.overlap(this,this.castScene.moveablesGroup,function (self, other) {
+            const selfperson: Moveable = <Moveable>self;
+            const otherperson: Moveable = <Moveable>other;
+            const dist: Vector2 = new Vector2(otherperson.x - selfperson.x, otherperson.y - selfperson.y);
+            otherperson.move(dist.scale(0.08));
+        },null,this.castScene);
     }
 }

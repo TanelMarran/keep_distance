@@ -20,7 +20,7 @@ const config: GameConfig = {
    scene: [PlaygroundScene],
    physics: {default: 'arcade',
    arcade: {
-      debug: false
+      debug: true
    }},
    parent: 'game'
 };

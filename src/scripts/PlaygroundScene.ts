@@ -3,10 +3,12 @@ import Text = Phaser.GameObjects.Text;
 import {Health, Person} from "./objects/Person";
 import Group = Phaser.Physics.Arcade.Group;
 import {EvadeCollider} from "./objects/EvadeCollider";
+import {Doggy} from "./objects/Doggy";
 
 export class PlaygroundScene extends Scene {
     mouseArea: EvadeCollider;
-    populationGroup: Group;
+    peopleGroup: Group;
+    moveablesGroup: Group;
     text: Text;
 
     constructor() {
@@ -14,7 +16,8 @@ export class PlaygroundScene extends Scene {
     }
 
     init(): void {
-        this.populationGroup = new Group(this.physics.world,this);
+        this.peopleGroup = new Group(this.physics.world,this);
+        this.moveablesGroup = new Group(this.physics.world,this);
     }
 
     preload(): void {
@@ -28,6 +31,7 @@ export class PlaygroundScene extends Scene {
     create(): void {
         this.mouseArea = new EvadeCollider(this,this.game.input.mousePointer.x, this.game.input.mousePointer.y,null);
         this.mouseArea.body.setCircle(3,12,12);
+        new Doggy(this,Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height));
         for(var i = 0; i < 1; i++) {
             this.addPerson();
         }
@@ -41,19 +45,19 @@ export class PlaygroundScene extends Scene {
 
     addPerson(): void {
         const image = 'person_'+Phaser.Math.Between(1,4);
-        this.populationGroup.add(new Person(this,Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height),image));
+        new Person(this,Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height),image);
     }
 
     removePerson(): void {
-        if(this.populationGroup.getLength() > 0) {
-            (<Person>this.populationGroup.getChildren()[0]).destroy();
+        if(this.peopleGroup.getLength() > 0) {
+            (<Person>this.peopleGroup.getChildren()[0]).destroy();
         }
     }
 
     getHealthCount(): [number, number, number] {
         let counts: [number, number, number] = [0,0,0];
         const healthKeys = Object.keys(Health);
-        for(let p of this.populationGroup.getChildren()) {
+        for(let p of this.peopleGroup.getChildren()) {
             let person: Person = <Person>p;
             for(let index in healthKeys) {
                 if(person.health == healthKeys[index]) {

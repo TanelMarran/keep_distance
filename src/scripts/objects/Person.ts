@@ -22,6 +22,7 @@ export class Person extends Moveable {
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string = 'person', frame?: string | integer) {
         super(scene,x,y,texture,frame);
 
+        this.castScene.peopleGroup.add(this);
         this.evadeMovement = new Vector2(0,0);
         this.targetCoord = new Vector2(this.x,this.y);
         this.evadeCollider = new EvadeCollider(this.scene, this.x, this.y, this);
@@ -101,22 +102,28 @@ export class Person extends Moveable {
     protected moveBody(): void {
         this.movement = this.moveVectors(this.movement,this.targetMovement);
 
+        this.checkOverlaps();
+
+        this.move(this.movement.add(this.evadeMovement));
+    }
+
+    protected checkOverlaps(): void {
+        //Collisions with other people
+        this.scene.physics.overlap(this,this.castScene.peopleGroup,function (self, other) {
+            const selfperson: Person = <Person>self;
+            const otherperson: Person = <Person>other;
+            selfperson.transmitVirus(otherperson.health);
+        },null,this.castScene);
+
+        super.checkOverlaps();
+
         //Collisions with evasion circle
-        this.scene.physics.overlap(this.evadeCollider,this.castScene.populationGroup,function (self, other) {
+        this.scene.physics.overlap(this.evadeCollider,this.castScene.peopleGroup,function (self, other) {
             let selfperson : Person = <Person>(<EvadeCollider>self).parent;
             var otherperson : Person = <Person>other;
             if(selfperson != otherperson) {
                 selfperson.evade(otherperson);
             }
-        },null,this.castScene);
-
-        //Collisions with other people
-        this.scene.physics.overlap(this,this.castScene.populationGroup,function (self, other) {
-            const selfperson: Person = <Person>self;
-            const otherperson: Person = <Person>other;
-            const dist: Vector2 = new Vector2(otherperson.x - selfperson.x, otherperson.y - selfperson.y);
-            otherperson.move(dist.scale(0.08));
-            selfperson.transmitVirus(otherperson.health);
         },null,this.castScene);
 
         //Collisions with the mouse
@@ -125,7 +132,5 @@ export class Person extends Moveable {
             const mousepos: Vector2 = new Vector2(this.input.mousePointer.x,this.input.mousePointer.y);
             selfperson.evade(mousepos);
         },null,this.castScene);
-
-        this.move(this.movement.add(this.evadeMovement));
     }
 }
