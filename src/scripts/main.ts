@@ -16,7 +16,7 @@ const config: GameConfig = {
    // @ts-ignore
    pixelArt: true,
    scale : {
-      width: 320,
+      width: 431,
       height: 240,
       zoom: 2
    },
@@ -32,6 +32,7 @@ const config: GameConfig = {
 window.onload = () => {
    game = new Game(config);
    isDistancing = true;
+   Chart.defaults.global.defaultFontFamily = "comic sans";
 
    const pause_button: HTMLElement = document.getElementById('pause-button');
    pause_button.onclick = () => pauseGame(pause_button);

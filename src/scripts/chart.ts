@@ -12,7 +12,6 @@ export function loadChart(): Chart {
     let chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
-        showTooltips: false,
         options: {
             scales: {
                 yAxes: [{
@@ -22,6 +21,13 @@ export function loadChart(): Chart {
                     }
                 }]
             },
+            elements: {
+                point: {
+                    radius: 0,
+                    hitRadius: 0,
+                    hoverRadius: 0,
+                }
+            }
         },
 
         // The data for our dataset

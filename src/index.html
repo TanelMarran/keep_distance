@@ -4,19 +4,24 @@
 	<meta charset="UTF-8">
 	<title>Test Game</title>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Slab&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <script src="scripts/main.ts"></script>
-
-<h1>Stay at a distance!</h1>
-<div id="game"></div>
-<label for="people-amount"></label><input type="number" id="people-amount" min="0" max="100" value="1"/>
-<button id="pause-button">Pause</button>
-<button id="reset-button">Reset</button>
-<button id="infect-tool">Infect</button>
-<button id="doggy-tool">Doggy</button>
-<button id="behaviour-button">2 Meters</button>
-<canvas id="population-chart"></canvas>
+<div id="game" class="center"><h1>Stay at a distance!</h1></div>
+<div class="center">
+	<div class="column">
+		<label for="people-amount"></label><input type="number" id="people-amount" min="0" max="100" value="1"/>
+		<button id="pause-button">Pause</button>
+		<button id="reset-button">Reset</button>
+		<button id="infect-tool">Infect</button>
+		<button id="doggy-tool">Doggy</button>
+		<button id="behaviour-button">2 Meters</button>
+	</div>
+	<div class="column">
+		<canvas id="population-chart"></canvas>
+	</div>
+</div>
 </body>
 </html>
