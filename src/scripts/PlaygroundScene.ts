@@ -42,6 +42,8 @@ export class PlaygroundScene extends Scene {
 
     create(): void {
         this.mouse = new Mouse(this,this.game.input.mousePointer.x, this.game.input.mousePointer.y);
+        this.population = 1;
+        this.targetPopulation = 1;
         for(var i = 0; i < 1; i++) {
             this.addPerson();
         }
@@ -50,6 +52,8 @@ export class PlaygroundScene extends Scene {
     update(time: number, delta: number): void {
         this.mouse.x = this.game.input.mousePointer.x;
         this.mouse.y = this.game.input.mousePointer.y;
+        this.population += (this.targetPopulation-this.population)*0.1;
+        this.setPopulation(Math.round(this.population));
     }
 
     addPerson(): void {
@@ -106,5 +110,7 @@ export class PlaygroundScene extends Scene {
         while(this.moveablesGroup.getLength() > 0) {
             (<Person>this.moveablesGroup.getChildren()[0]).destroy();
         }
+        this.population = 0;
+        this.targetPopulation = 0;
     }
 }

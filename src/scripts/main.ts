@@ -72,7 +72,7 @@ window.onload = () => {
 
    function setPopulationAmount(element: HTMLInputElement) {
       element.value = Math.max(0,+element.value).toString();
-      (<PlaygroundScene>game.scene.getScene('PlaygroundScene')).setPopulation(+element.value);
+      (<PlaygroundScene>game.scene.getScene('PlaygroundScene')).targetPopulation = +element.value;
    }
 
    function pauseGame(button: HTMLElement): void {
