@@ -4,12 +4,16 @@ import {Health, Person} from "./objects/Person";
 import Group = Phaser.Physics.Arcade.Group;
 import {CircleCollider} from "./objects/CircleCollider";
 import {Doggy} from "./objects/Doggy";
+import {Wall} from "./objects/Wall";
 
 export class PlaygroundScene extends Scene {
     mouseArea: CircleCollider;
     peopleGroup: Group;
     moveablesGroup: Group;
+    wallGroup: Group;
     text: Text;
+    targetPopulation: number;
+    population: number;
 
     constructor() {
         super({key: 'PlaygroundScene'})
@@ -18,6 +22,7 @@ export class PlaygroundScene extends Scene {
     init(): void {
         this.peopleGroup = new Group(this.physics.world,this);
         this.moveablesGroup = new Group(this.physics.world,this);
+        this.wallGroup = new Group(this.physics.world,this);
     }
 
     preload(): void {
@@ -26,6 +31,7 @@ export class PlaygroundScene extends Scene {
         this.load.image('person_3',require('../sprites/person_3.png'));
         this.load.image('person_4',require('../sprites/person_4.png'));
         this.load.image('doggy',require('../sprites/doggy.png'));
+        this.load.image('wall',require('../sprites/wall.png'));
     }
 
     create(): void {
@@ -66,5 +72,18 @@ export class PlaygroundScene extends Scene {
             }
         }
         return counts;
+    }
+
+    setPopulation(amount: number): void {
+        const current = this.peopleGroup.getChildren().length;
+        if(amount > current) {
+            for(let i = 0; i < amount-current; i++) {
+                this.addPerson();
+            }
+        } else if (amount < current) {
+            for(let i = 0; i < current-amount; i++) {
+                this.removePerson();
+            }
+        }
     }
 }

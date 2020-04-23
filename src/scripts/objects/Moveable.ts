@@ -2,6 +2,7 @@ import {PlaygroundScene} from "../PlaygroundScene";
 import Vector2 = Phaser.Math.Vector2;
 import Sprite = Phaser.Physics.Arcade.Sprite;
 import {Person} from "./Person";
+import {sign} from "crypto";
 
 export abstract class Moveable extends Sprite {
     castScene : PlaygroundScene;
@@ -68,8 +69,35 @@ export abstract class Moveable extends Sprite {
     public move(vector: Vector2): void {
         let length = vector.length();
         vector = vector.normalize().scale(Math.min(this.maxMovement,length));
-        this.x += vector.x;
-        this.y += vector.y;
+        //this.x += vector.x;
+        //console.log('Total: ' + vector.x);
+        let total = vector.x;
+        while(total != 0) {
+            let amount = Math.min(Math.abs(total),1)*Math.sign(total);
+            this.x += amount;
+            let collision = this.scene.physics.overlap(this,this.castScene.wallGroup);
+            if(collision) {
+                this.x -= amount;
+                total = 0;
+                this.movement.x = 0;
+                break;
+            }
+            total -= amount;
+        }
+        total = vector.y;
+        while(total != 0) {
+            let amount = Math.min(Math.abs(total),1)*Math.sign(total);
+            this.y += amount;
+            let collision = this.scene.physics.overlap(this,this.castScene.wallGroup);
+            if(collision) {
+                this.y -= amount;
+                total = 0;
+                this.movement.y = 0;
+                break;
+            }
+            total -= amount;
+        }
+
 
         let width = this.scene.game.scale.width;
         let height = this.scene.game.scale.height;

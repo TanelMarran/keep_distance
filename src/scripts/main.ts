@@ -27,15 +27,18 @@ const config: GameConfig = {
 
 window.onload = () => {
    game = new Game(config);
-   const add_button: HTMLElement = document.getElementById('add-button');
-   add_button.onclick = addPerson;
-   const remove_button: HTMLElement = document.getElementById('remove-button');
-   remove_button.onclick = removePerson;
    const pause_button: HTMLElement = document.getElementById('pause-button');
    pause_button.onclick = pauseGame;
+   const people_amount: HTMLInputElement = <HTMLInputElement>(document.getElementById('people-amount'));
+   people_amount.onchange = () => setPopulationAmount(people_amount);
    const chart: Chart = loadChart();
    const timerId = setInterval(() => updateChart(chart), 100);
 };
+
+function setPopulationAmount(element: HTMLInputElement) {
+   element.value = Math.max(0,+element.value).toString();
+   (<PlaygroundScene>game.scene.getScene('PlaygroundScene')).setPopulation(+element.value);
+}
 
 function addPerson(): void {
    (<PlaygroundScene>game.scene.getScene('PlaygroundScene')).addPerson();
