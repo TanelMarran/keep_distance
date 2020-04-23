@@ -6,7 +6,7 @@ import {Doggy} from "./objects/Doggy";
 import {Mouse} from "./objects/Mouse";
 
 export class PlaygroundScene extends Scene {
-    mouseArea: Mouse;
+    mouse: Mouse;
     peopleGroup: Group;
     moveablesGroup: Group;
     wallGroup: Group;
@@ -37,16 +37,15 @@ export class PlaygroundScene extends Scene {
     }
 
     create(): void {
-        this.mouseArea = new Mouse(this,this.game.input.mousePointer.x, this.game.input.mousePointer.y,null);
-        new Doggy(this,Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height));
+        this.mouse = new Mouse(this,this.game.input.mousePointer.x, this.game.input.mousePointer.y);
         for(var i = 0; i < 1; i++) {
             this.addPerson();
         }
     }
 
     update(time: number, delta: number): void {
-        this.mouseArea.x = this.game.input.mousePointer.x;
-        this.mouseArea.y = this.game.input.mousePointer.y;
+        this.mouse.x = this.game.input.mousePointer.x;
+        this.mouse.y = this.game.input.mousePointer.y;
     }
 
     addPerson(): void {

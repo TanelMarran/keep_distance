@@ -138,7 +138,7 @@ export class Person extends Moveable {
         },null,this.castScene);
 
         //Collisions with the mouse
-        this.scene.physics.overlap(this.evadeCollider,this.castScene.mouseArea,function (self) {
+        this.scene.physics.overlap(this.evadeCollider,this.castScene.mouse,function (self) {
             const selfperson : Person = <Person>(<CircleCollider>self).parent;
             const mousepos: Vector2 = new Vector2(this.input.mousePointer.x,this.input.mousePointer.y);
             selfperson.evade(mousepos);

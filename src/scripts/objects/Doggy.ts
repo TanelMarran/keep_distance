@@ -12,7 +12,7 @@ export class Doggy extends Moveable {
 
         this.attractionCollider = new CircleCollider(scene,x,y,this);
         this.attractionCollider.setCircle(48,-32,-32);
-        this.lifeTime = 5;
+        this.lifeTime = 5+Phaser.Math.Between(0,4);
     }
 
     protected applyAnimation(time: number): void {
