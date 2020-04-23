@@ -6,10 +6,12 @@
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Slab&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../node_modules/intro.js/introjs.css">
 </head>
 <body>
+<scripts src="../node_modules/intro.js/intro.js"></scripts>
 <script src="scripts/main.ts"></script>
-<div id="game" class="center"><h1>Stay at a distance!</h1></div>
+<div id="game" class="center"><h1 data-intro="healpw mew">Stay at a distance!</h1></div>
 <div class="center">
 	<div class="column">
 		<label for="people-amount"></label><input type="number" id="people-amount" min="0" max="100" value="1"/>

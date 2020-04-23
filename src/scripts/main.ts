@@ -3,6 +3,7 @@ import {PlaygroundScene} from "./PlaygroundScene";
 import {Chart} from 'chart.js';
 import {addData, loadChart, updateMaxY} from "./chart";
 import {Tool} from "./objects/Mouse";
+import introJs from 'intro.js/intro.js';
 import GameConfig = Phaser.Types.Core.GameConfig;
 import Timeout = NodeJS.Timeout;
 
@@ -108,4 +109,6 @@ window.onload = () => {
       clearInterval(timerId);
       timerId = setInterval(() => updateChart(chart), 100);
    }
+
+   introJs().start();
 };
