@@ -3,6 +3,7 @@
     "@types/chart.js": "^2.9.19",
     "@types/node": "^13.13.0",
     "chart.js": "^2.9.3",
+    "intro.js": "^2.9.3",
     "phaser": "^3.22.0",
     "sprites": "^0.2.3"
   },
