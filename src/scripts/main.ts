@@ -8,10 +8,11 @@ import Timeout = NodeJS.Timeout;
 
 let game: Game;
 let isPaused: boolean;
+let isDistancing: boolean;
 let chart: Chart;
 
 const config: GameConfig = {
-   title: "Quarantine",
+   title: "Keep Distance",
    // @ts-ignore
    pixelArt: true,
    scale : {
@@ -30,7 +31,7 @@ const config: GameConfig = {
 
 window.onload = () => {
    game = new Game(config);
-
+   isDistancing = true;
 
    const pause_button: HTMLElement = document.getElementById('pause-button');
    pause_button.onclick = () => pauseGame(pause_button);
@@ -43,6 +44,21 @@ window.onload = () => {
 
    const doggy_tool: HTMLElement = document.getElementById('doggy-tool');
    doggy_tool.onclick = () => setTool(Tool.Doggy);
+
+   const behaviour_button: HTMLElement = document.getElementById('behaviour-button');
+   behaviour_button.onclick = () => toggleBehaviour(behaviour_button);
+
+   function toggleBehaviour(behaviour_button: HTMLElement) {
+      if(isDistancing) {
+         (<PlaygroundScene>game.scene.getScene('PlaygroundScene')).setDistancing(false);
+         behaviour_button.innerText = "No Meters";
+         isDistancing = false;
+      } else {
+         (<PlaygroundScene>game.scene.getScene('PlaygroundScene')).setDistancing(true);
+         behaviour_button.innerText = "2 Meters";
+         isDistancing = true;
+      }
+   }
 
    const people_amount: HTMLInputElement = <HTMLInputElement>(document.getElementById('people-amount'));
    people_amount.onchange = () => setPopulationAmount(people_amount);

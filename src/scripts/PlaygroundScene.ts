@@ -16,6 +16,9 @@ export class PlaygroundScene extends Scene {
 
     paused: boolean;
 
+    evasionAmountMax = 1.3;
+    evasionAmount = this.evasionAmountMax;
+
     constructor() {
         super({key: 'PlaygroundScene'})
     }
@@ -50,7 +53,7 @@ export class PlaygroundScene extends Scene {
 
     addPerson(): void {
         const image = 'person_'+Phaser.Math.Between(1,4);
-        new Person(this,Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height),image);
+        new Person(this,Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height),image,this.evasionAmount);
     }
 
     removePerson(): void {
@@ -83,6 +86,18 @@ export class PlaygroundScene extends Scene {
             for(let i = 0; i < current-amount; i++) {
                 this.removePerson();
             }
+        }
+    }
+
+    setDistancing(value: boolean): void {
+        if(value) {
+            this.evasionAmount = this.evasionAmountMax;
+        } else {
+            this.evasionAmount = 0;
+        }
+
+        for(let p of this.peopleGroup.getChildren()) {
+            (<Person>p).evasionAmountMax = this.evasionAmount;
         }
     }
 }

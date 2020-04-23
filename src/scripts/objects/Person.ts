@@ -22,9 +22,10 @@ export class Person extends Moveable {
 
     attractionTime = 0;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, texture: string = 'person', frame?: string | integer) {
-        super(scene,x,y,texture,frame);
+    constructor(scene: Phaser.Scene, x: number, y: number, texture: string = 'person', evasionAmount: number) {
+        super(scene,x,y,texture);
 
+        this.evasionAmountMax = evasionAmount;
         this.castScene.peopleGroup.add(this);
         this.evadeMovement = new Vector2(0,0);
         this.targetCoord = new Vector2(this.x,this.y);
