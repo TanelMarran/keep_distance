@@ -15,6 +15,8 @@ export class PlaygroundScene extends Scene {
     targetPopulation: number;
     population: number;
 
+    paused: boolean;
+
     constructor() {
         super({key: 'PlaygroundScene'})
     }
@@ -23,6 +25,7 @@ export class PlaygroundScene extends Scene {
         this.peopleGroup = new Group(this.physics.world,this);
         this.moveablesGroup = new Group(this.physics.world,this);
         this.wallGroup = new Group(this.physics.world,this);
+        this.paused = false;
     }
 
     preload(): void {

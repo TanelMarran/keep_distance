@@ -28,7 +28,7 @@ export abstract class Moveable extends Sprite {
         this.targetCoord = new Vector2(this.x,this.y);
 
         this.body.setCircle(8,0,0);
-        scene.events.on('update',this.update,this);
+        scene.events.on('update',this.pausedUpdate,this);
     }
 
     update(time: number, delta: number): void {
@@ -37,6 +37,12 @@ export abstract class Moveable extends Sprite {
         this.applyAnimation(time);
 
         this.moveBody();
+    }
+
+    pausedUpdate(time: number, delta: number): void {
+        if (!this.castScene.paused) {
+            this.update(time,delta);
+        }
     }
 
 
@@ -107,7 +113,7 @@ export abstract class Moveable extends Sprite {
     }
 
     public destroy(fromScene?: boolean): void {
-        this.scene.events.removeListener('update',this.update,this);
+        this.scene.events.removeListener('update',this.pausedUpdate,this);
         super.destroy();
     }
 

@@ -28,7 +28,9 @@ const config: GameConfig = {
 window.onload = () => {
    game = new Game(config);
    const pause_button: HTMLElement = document.getElementById('pause-button');
-   pause_button.onclick = pauseGame;
+   pause_button.onclick = () => pauseGame(pause_button);
+   const reset_button: HTMLElement = document.getElementById('reset-button');
+   reset_button.onclick = resetGame;
    const people_amount: HTMLInputElement = <HTMLInputElement>(document.getElementById('people-amount'));
    people_amount.onchange = () => setPopulationAmount(people_amount);
    const chart: Chart = loadChart();
@@ -48,12 +50,14 @@ function removePerson(): void {
    (<PlaygroundScene>game.scene.getScene('PlaygroundScene')).removePerson();
 }
 
-function pauseGame(): void {
-   if(!game.scene.isPaused('PlaygroundScene')) {
-      game.scene.pause('PlaygroundScene');
+function pauseGame(button: HTMLElement): void {
+   if(!(<PlaygroundScene>game.scene.getScene('PlaygroundScene')).paused) {
+      (<PlaygroundScene>game.scene.getScene('PlaygroundScene')).paused = true;
+      button.innerText = "Play";
       isPaused = true;
    } else {
-      game.scene.resume('PlaygroundScene');
+      (<PlaygroundScene>game.scene.getScene('PlaygroundScene')).paused = false;
+      button.innerText = "Pause";
       isPaused = false;
    }
 }
@@ -68,4 +72,8 @@ function updateChart(chart: Chart): void {
       updateMaxY(chart, values.reduce((a, b) => a + b, 0));
       addData(chart, '', values[1]);
    }
+}
+
+function resetGame() {
+   console.log("reset");
 }
