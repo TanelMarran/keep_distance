@@ -32,10 +32,11 @@ export class PlaygroundScene extends Scene {
     }
 
     preload(): void {
-        this.load.image('person_1',require('../sprites/person_1.png'));
-        this.load.image('person_2',require('../sprites/person_2.png'));
-        this.load.image('person_3',require('../sprites/person_3.png'));
-        this.load.image('person_4',require('../sprites/person_4.png'));
+        const frameConfig = {frameWidth: 16, frameHeight: 16};
+        this.load.spritesheet('person_1',require('../sprites/person_1.png'),frameConfig);
+        this.load.spritesheet('person_2',require('../sprites/person_2.png'),frameConfig);
+        this.load.spritesheet('person_3',require('../sprites/person_3.png'),frameConfig);
+        this.load.spritesheet('person_4',require('../sprites/person_4.png'),frameConfig);
         this.load.image('doggy',require('../sprites/doggy.png'));
         this.load.image('wall',require('../sprites/wall.png'));
     }

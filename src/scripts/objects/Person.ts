@@ -23,7 +23,7 @@ export class Person extends Moveable {
     attractionTime = 0;
 
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string = 'person', evasionAmount: number) {
-        super(scene,x,y,texture);
+        super(scene,x,y,texture,0);
 
         this.evasionAmountMax = evasionAmount;
         this.castScene.peopleGroup.add(this);
@@ -90,14 +90,14 @@ export class Person extends Moveable {
         this.health = health;
         switch (this.health) {
             case Health.Healthy:
-                this.setTint(0xffffff);
+                this.setFrame(0);
                 break;
             case Health.Infected:
-                this.setTint(0xff0000);
+                this.setFrame(1);
                 this.infectionTime = 10+Phaser.Math.Between(0,10);
                 break;
             case Health.Recovered:
-                this.setTint(0x0000ff);
+                this.setFrame(2);
                 break;
         }
     }
