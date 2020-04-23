@@ -3,9 +3,11 @@ import GameConfig = Phaser.Types.Core.GameConfig;
 import {PlaygroundScene} from "./PlaygroundScene";
 import {Chart} from 'chart.js';
 import {addData, loadChart, updateMaxY} from "./chart";
+import Timeout = NodeJS.Timeout;
 
 let game: Game;
 let isPaused: boolean;
+let chart: Chart;
 
 const config: GameConfig = {
    title: "Quarantine",
@@ -20,7 +22,7 @@ const config: GameConfig = {
    scene: [PlaygroundScene],
    physics: {default: 'arcade',
    arcade: {
-      debug: false
+      debug: true
    }},
    parent: 'game'
 };
@@ -33,8 +35,16 @@ window.onload = () => {
    reset_button.onclick = resetGame;
    const people_amount: HTMLInputElement = <HTMLInputElement>(document.getElementById('people-amount'));
    people_amount.onchange = () => setPopulationAmount(people_amount);
-   const chart: Chart = loadChart();
-   const timerId = setInterval(() => updateChart(chart), 100);
+   chart = loadChart();
+   let timerId: Timeout = setInterval(() => updateChart(chart), 100);
+
+   function resetGame() {
+      people_amount.value = "0";
+      setPopulationAmount(people_amount);
+      chart = loadChart();
+      clearInterval(timerId);
+      timerId = setInterval(() => updateChart(chart), 100);
+   }
 };
 
 function setPopulationAmount(element: HTMLInputElement) {
@@ -72,8 +82,4 @@ function updateChart(chart: Chart): void {
       updateMaxY(chart, values.reduce((a, b) => a + b, 0));
       addData(chart, '', values[1]);
    }
-}
-
-function resetGame() {
-   console.log("reset");
 }
