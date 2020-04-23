@@ -101,7 +101,8 @@ window.onload = () => {
 
    function resetGame() {
       people_amount.value = "0";
-      setPopulationAmount(people_amount);
+      (<PlaygroundScene>game.scene.getScene('PlaygroundScene')).resetGame();
+      chart.destroy();
       chart = loadChart();
       clearInterval(timerId);
       timerId = setInterval(() => updateChart(chart), 100);

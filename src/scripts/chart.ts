@@ -12,6 +12,7 @@ export function loadChart(): Chart {
     let chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
+        showTooltips: false,
         options: {
             scales: {
                 yAxes: [{

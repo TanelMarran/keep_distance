@@ -4,6 +4,7 @@ import {Health, Person} from "./objects/Person";
 import Group = Phaser.Physics.Arcade.Group;
 import {Doggy} from "./objects/Doggy";
 import {Mouse} from "./objects/Mouse";
+import {Moveable} from "./objects/Moveable";
 
 export class PlaygroundScene extends Scene {
     mouse: Mouse;
@@ -98,6 +99,12 @@ export class PlaygroundScene extends Scene {
 
         for(let p of this.peopleGroup.getChildren()) {
             (<Person>p).evasionAmountMax = this.evasionAmount;
+        }
+    }
+
+    resetGame(): void {
+        while(this.moveablesGroup.getLength() > 0) {
+            (<Person>this.moveablesGroup.getChildren()[0]).destroy();
         }
     }
 }
