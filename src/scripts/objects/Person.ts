@@ -32,9 +32,6 @@ export class Person extends Moveable {
         this.body.setCircle(8,0,0);
 
         this.setHealth(Health.Healthy);
-        if(Phaser.Math.Between(0,5) == 0) {
-            this.setHealth(Health.Infected);
-        }
     }
 
     handleAttraction(): void {
@@ -88,7 +85,7 @@ export class Person extends Moveable {
         }
     }
 
-    private setHealth(health: Health): void {
+    public setHealth(health: Health): void {
         this.health = health;
         switch (this.health) {
             case Health.Healthy:
