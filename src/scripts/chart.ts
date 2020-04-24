@@ -1,15 +1,11 @@
 import {Chart, ChartDataSets} from 'chart.js';
+import {Colors} from "./main";
 
 const graphXticks = 30*6;
 let labels = [];
 for (var i = 0; i < graphXticks; i++) {
     labels.push('');
 }
-
-
-const infected_color = '#cc3781';
-const healthy_color = 'rgb(200,243,229)';
-const recovered_color = '#e2cd5a';
 
 export function loadChart(): Chart {
     let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("population-chart");
@@ -41,20 +37,20 @@ export function loadChart(): Chart {
             datasets: [
                 {
                     label: 'Infected',
-                    backgroundColor: infected_color,
-                    borderColor: infected_color,
+                    backgroundColor: Colors.infected,
+                    borderColor: Colors.infected,
                     data: []
                 },
                 {
                     label: 'Healthy',
-                    backgroundColor: healthy_color,
-                    borderColor: healthy_color,
+                    backgroundColor: Colors.healthy,
+                    borderColor: Colors.healthy,
                     data: []
                 },
                 {
                     label: 'Recovered',
-                    backgroundColor: recovered_color,
-                    borderColor: recovered_color,
+                    backgroundColor: Colors.recovered,
+                    borderColor: Colors.recovered,
                     data: []
                 }
             ]

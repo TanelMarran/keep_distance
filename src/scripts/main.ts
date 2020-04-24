@@ -12,6 +12,12 @@ let isPaused: boolean;
 let isDistancing: boolean;
 let chart: Chart;
 
+export enum Colors {
+   infected = '#cc3781',
+   healthy = '#C8F3E5',
+   recovered = '#e2cd5a'
+}
+
 const config: GameConfig = {
    title: "Keep Distance",
    // @ts-ignore
@@ -21,7 +27,7 @@ const config: GameConfig = {
       height: 240,
       zoom: 2
    },
-   backgroundColor: 'rgb(200,243,229)',
+   backgroundColor: Colors.healthy,
    scene: [PlaygroundScene],
    physics: {default: 'arcade',
    arcade: {
