@@ -6,8 +6,8 @@ import Line = Phaser.GameObjects.Line;
 import {Moveable} from "./Moveable";
 
 export enum Health {
-    Healthy = "Healthy",
     Infected = "Infected",
+    Healthy = "Healthy",
     Recovered = "Recovered"
 }
 

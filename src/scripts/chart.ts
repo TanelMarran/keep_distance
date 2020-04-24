@@ -1,10 +1,15 @@
-import {Chart} from 'chart.js';
+import {Chart, ChartDataSets} from 'chart.js';
 
 const graphXticks = 30*6;
 let labels = [];
 for (var i = 0; i < graphXticks; i++) {
     labels.push('');
 }
+
+
+const infected_color = 'rgba(107,185,138)';
+const healthy_color = 'rgb(226,205,90)';
+const recovered_color = 'rgb(204,55,129)';
 
 export function loadChart(): Chart {
     let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("population-chart");
@@ -33,27 +38,52 @@ export function loadChart(): Chart {
         // The data for our dataset
         data: {
             labels: labels,
-            datasets: [{
-                label: 'Infected',
-                backgroundColor: 'rgb(204,255,222)',
-                borderColor: 'rgb(204,255,222)',
-                data: []
-            }]
+            datasets: [
+                {
+                    label: 'Infected',
+                    backgroundColor: infected_color,
+                    borderColor: infected_color,
+                    data: []
+                },
+                {
+                    label: 'Healthy',
+                    backgroundColor: healthy_color,
+                    borderColor: healthy_color,
+                    data: []
+                },
+                {
+                    label: 'Recovered',
+                    backgroundColor: recovered_color,
+                    borderColor: recovered_color,
+                    data: []
+                }
+            ]
         }
     });
     return chart;
 }
 
-export function addData(chart: Chart, label : number | string, data: number): void {
-    //chart.data.labels.push(label);
+export function addData(chart: Chart, label : number | string, data: [number, number, number]): void {
+    for(let i = 1; i < data.length; i++) {
+        data[i] += data[i-1];
+    }
 
-    chart.data.datasets.forEach((dataset) => {
+    for(let i = 0; i < chart.data.datasets.length; i++) {
+        let dataset: ChartDataSets = chart.data.datasets[i];
+        if(dataset.data.length > graphXticks) {
+            dataset.data.shift();
+            dataset.data.pop();
+        }
+        dataset.data.push(data[i]);
+    }
+
+    /*chart.data.datasets.forEach((dataset) => {
         if(dataset.data.length > graphXticks) {
             dataset.data.shift();
             dataset.data.pop();
         }
         dataset.data.push(data);
-    });
+    });*/
     chart.update();
 }
 

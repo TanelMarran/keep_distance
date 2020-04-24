@@ -97,7 +97,7 @@ window.onload = () => {
       if(!isPaused) {
          const values: [number, number, number] = getHealthCounts();
          updateMaxY(chart, values.reduce((a, b) => a + b, 0));
-         addData(chart, '', values[1]);
+         addData(chart, '', values);
       }
    }
 
