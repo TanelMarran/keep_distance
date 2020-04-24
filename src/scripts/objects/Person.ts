@@ -68,11 +68,11 @@ export class Person extends Moveable {
         return svector.add(dist);
     }
 
-    public evade(other: Vector2 | Person): void {
+    public evade(other: Vector2 | Person, evasionAmount = this.evasionAmount): void {
         const dist: Vector2 = new Vector2((this.x - other.x), (this.y - other.y));
         dist.x = Math.max(0,60-Math.abs(dist.x))*Math.sign(dist.x);
         dist.y = Math.max(0,60-Math.abs(dist.y))*Math.sign(dist.y);
-        this.evadeMovement = this.evadeMovement.add(dist.scale(this.evasionAmount).scale(0.001));
+        this.evadeMovement = this.evadeMovement.add(dist.scale(evasionAmount).scale(0.001));
     }
 
     public destroy(fromScene?: boolean): void {
@@ -142,7 +142,7 @@ export class Person extends Moveable {
         this.scene.physics.overlap(this.evadeCollider,this.castScene.mouse,function (self) {
             const selfperson : Person = <Person>(<CircleCollider>self).parent;
             const mousepos: Vector2 = new Vector2(this.input.mousePointer.x,this.input.mousePointer.y);
-            selfperson.evade(mousepos);
+            selfperson.evade(mousepos,1.3);
         },null,this.castScene);
     }
 }
