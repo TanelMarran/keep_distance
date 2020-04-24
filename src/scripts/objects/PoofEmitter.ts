@@ -7,13 +7,13 @@ export class PoofEmitter {
     lifetime: number;
     scene: Scene;
 
-    constructor(scene: Scene, manager: ParticleEmitterManager,x: number, y: number, frames: number[], lifetime: number) {
+    constructor(scene: Scene, manager: ParticleEmitterManager,x: number, y: number, frames: number[], lifetime: number, speed = 1) {
         this.emitter = manager.createEmitter({
             frame: frames,
             x: x,
             y: y,
-            lifespan: 150,
-            speed: { min: 45, max: 80 },
+            lifespan: 150*1/speed,
+            speed: { min: 45*speed, max: 80*speed },
             angle: {min: 0, max: 359},
             gravityY: 0,
             scale: 1,

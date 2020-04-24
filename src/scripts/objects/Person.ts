@@ -96,11 +96,11 @@ export class Person extends Moveable {
             case Health.Infected:
                 this.setFrame(1);
                 this.infectionTime = 10+Phaser.Math.Between(0,10);
-                new PoofEmitter(this.castScene,this.castScene.particleSystem,this.x,this.y,[0,1,2],0.09);
+                new PoofEmitter(this.castScene,this.castScene.particleSystem,this.x,this.y,[0,1,2],0.12,0.5);
                 break;
             case Health.Recovered:
                 this.setFrame(2);
-                new PoofEmitter(this.castScene,this.castScene.particleSystem,this.x,this.y,[3,4,5],0.09);
+                new PoofEmitter(this.castScene,this.castScene.particleSystem,this.x,this.y,[3,4,5],0.12,0.5);
                 break;
         }
     }

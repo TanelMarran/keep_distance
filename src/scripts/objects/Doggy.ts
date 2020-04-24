@@ -2,6 +2,7 @@ import {Moveable} from "./Moveable";
 import {CircleCollider} from "./CircleCollider";
 import Vector2 = Phaser.Math.Vector2;
 import {Person} from "./Person";
+import {PoofEmitter} from "./PoofEmitter";
 
 export class Doggy extends Moveable {
     attractionCollider: CircleCollider;
@@ -35,6 +36,9 @@ export class Doggy extends Moveable {
             let dist: Vector2 = new Vector2(o.x - self.x,o.y - self.y);
             dist = dist.normalize().scale(10);
             o.targetCoord = new Vector2(self.x+dist.x,self.y+dist.y);
+            if(o.attractionTime == 0) {
+                new PoofEmitter(self.scene,self.castScene.particleSystem,o.x,o.y,[9,10,11],0.01,0.5);
+            }
             o.attractionTime = 3;
         },null,this.castScene);
     }
