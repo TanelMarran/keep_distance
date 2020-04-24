@@ -12,6 +12,9 @@
     "start": "parcel serve src/index.html --open",
     "build": "parcel build src/index.html"
   },
+  "engines": {
+    "node": "12.13.1"
+  },
   "devDependencies": {
     "typescript": "^3.8.3"
   }
