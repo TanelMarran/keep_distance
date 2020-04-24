@@ -2,17 +2,18 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Test Game</title>
+	<title>Keep distance</title>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Slab&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="../node_modules/intro.js/introjs.css">
+	<link rel="icon" href="sprites/doggy.png">
 </head>
 <body>
 <scripts src="../node_modules/intro.js/intro.js"></scripts>
 <script src="scripts/main.ts"></script>
 <div id="game" class="center" data-intro="Here is the game window. Here you can see all of your people and how the virus spreads among them." data-step="2">
-	<h1 data-intro="Welcome to 'Keep a distance', a playground for testing out the effects of social distancing in a pandemic." data-step="1">Stay at a distance!</h1>
+	<h1 data-intro="Welcome to 'Keep distance', a playground for testing out the effects of social distancing in a pandemic." data-step="1">Keep distance</h1>
 </div>
 <div class="center">
 	<div class="column" data-intro="This is your toolbox. Here you specify how many people you want, pause/reset the simulation, infect people with the virus or add some enticing dogs that everybody will love to gather around. You can also toggle between people distancing themselves from others or not." data-step="3">
@@ -20,7 +21,7 @@
 		<button id="pause-button">Pause</button>
 		<button id="reset-button">Reset</button>
 		<br>
-		Tools: <button id="infect-tool">Infect</button>
+		Tools: <button id="infect-tool" class="selected">Infect</button>
 		<button id="doggy-tool">Doggy</button>
 		<br>
 		Social distancing: <button id="behaviour-button">On</button>
