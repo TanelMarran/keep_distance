@@ -23,6 +23,7 @@ export abstract class Moveable extends Sprite {
         this.setOrigin(0.5,0.5);
         this.movement = new Vector2(0,0);
         this.targetMovement = new Vector2(0,0);
+        this.scene.sound.play('poof');
 
         this.targetCoord = new Vector2(this.x,this.y);
 
@@ -115,6 +116,7 @@ export abstract class Moveable extends Sprite {
     public destroy(fromScene?: boolean): void {
         this.scene.events.removeListener('update',this.pausedUpdate,this);
         new PoofEmitter(this.castScene,this.castScene.particleSystem,this.x,this.y,[6,7,8],0.1);
+        this.scene.sound.play('poof');
         super.destroy();
     }
 

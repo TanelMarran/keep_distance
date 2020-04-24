@@ -42,6 +42,10 @@ export class PlaygroundScene extends Scene {
 
         this.load.spritesheet('particles',require('../sprites/particles.png'),frameConfig);
 
+        this.load.audio('poof',require('../sounds/poof.wav'));
+        this.load.audio('infect',require('../sounds/infect.wav'));
+        this.load.audio('recover',require('../sounds/recover.wav'));
+
         this.load.image('doggy',require('../sprites/doggy.png'));
         this.load.image('wall',require('../sprites/wall.png'));
     }
@@ -66,7 +70,7 @@ export class PlaygroundScene extends Scene {
 
     addPerson(): void {
         const image = 'person_'+Phaser.Math.Between(1,4);
-        const coords = [Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height)]
+        const coords = [Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height)];
         new Person(this,coords[0],coords[1],image,this.evasionAmount);
     }
 
