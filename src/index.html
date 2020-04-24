@@ -16,12 +16,14 @@
 </div>
 <div class="center">
 	<div class="column" data-intro="This is your toolbox. Here you specify how many people you want, pause/reset the simulation, infect people with the virus or add some enticing dogs that everybody will love to gather around. You can also toggle between people distancing themselves from others or not." data-step="3">
-		<label for="people-amount"></label><input type="number" id="people-amount" min="0" max="100" value="1"/>
+		Population: <label for="people-amount"></label><input type="number" id="people-amount" min="0" max="100" value="1"/>
 		<button id="pause-button">Pause</button>
 		<button id="reset-button">Reset</button>
-		<button id="infect-tool">Infect</button>
+		<br>
+		Tools: <button id="infect-tool">Infect</button>
 		<button id="doggy-tool">Doggy</button>
-		<button id="behaviour-button">2 Meters</button>
+		<br>
+		Social distancing: <button id="behaviour-button">On</button>
 	</div>
 	<div class="column" data-intro="From this graph you can see how your population is doing. Play around with the tools and settings available and see how social distancing helps flatten the curve and keep healthcare facilities from becoming overcrowded.">
 		<canvas id="population-chart"></canvas>

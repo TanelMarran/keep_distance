@@ -12,6 +12,24 @@ canvas {
     display: block;
 }
 
+button:hover {
+    background: #d8f3e6;
+}
+
+.selected {
+    background: #a9cbbf;
+}
+
+button {
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    background: #C8F3E5;
+    outline: none;
+    border: none;
+    font-family: "Roboto Slab", serif;
+}
+
 h1 {
     font-family: "Roboto Slab", serif;
 }
@@ -19,10 +37,6 @@ h1 {
 .column {
     float: left;
     width: 50%;
-}
-
-button {
-    font-family: "Roboto Slab", serif;
 }
 
 .row:after {

@@ -42,10 +42,10 @@ window.onload = () => {
    reset_button.onclick = resetGame;
 
    const infect_tool: HTMLElement = document.getElementById('infect-tool');
-   infect_tool.onclick = () => setTool(Tool.Infect);
+   infect_tool.onclick = () => setTool(infect_tool, Tool.Infect);
 
    const doggy_tool: HTMLElement = document.getElementById('doggy-tool');
-   doggy_tool.onclick = () => setTool(Tool.Doggy);
+   doggy_tool.onclick = () => setTool(doggy_tool, Tool.Doggy);
 
    const behaviour_button: HTMLElement = document.getElementById('behaviour-button');
    behaviour_button.onclick = () => toggleBehaviour(behaviour_button);
@@ -53,11 +53,11 @@ window.onload = () => {
    function toggleBehaviour(behaviour_button: HTMLElement) {
       if(isDistancing) {
          (<PlaygroundScene>game.scene.getScene('PlaygroundScene')).setDistancing(false);
-         behaviour_button.innerText = "No Meters";
+         behaviour_button.innerText = "Off";
          isDistancing = false;
       } else {
          (<PlaygroundScene>game.scene.getScene('PlaygroundScene')).setDistancing(true);
-         behaviour_button.innerText = "2 Meters";
+         behaviour_button.innerText = "On";
          isDistancing = true;
       }
    }
@@ -68,7 +68,12 @@ window.onload = () => {
    chart = loadChart();
    let timerId: Timeout = setInterval(() => updateChart(chart), 100);
 
-   function setTool(tool: Tool) {
+   function setTool(element: HTMLElement, tool: Tool) {
+      var testElements = document.getElementsByClassName('selected');
+      Array.prototype.filter.call(testElements, function(testElement){
+         testElement.classList.remove('selected');
+      });
+      element.classList.add('selected');
       (<PlaygroundScene>game.scene.getScene('PlaygroundScene')).mouse.currentTool = tool;
    }
 
