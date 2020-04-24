@@ -4,6 +4,7 @@ import {CircleCollider} from "./CircleCollider";
 import Sprite = Phaser.Physics.Arcade.Sprite;
 import Line = Phaser.GameObjects.Line;
 import {Moveable} from "./Moveable";
+import {PoofEmitter} from "./PoofEmitter";
 
 export enum Health {
     Infected = "Infected",
@@ -95,9 +96,11 @@ export class Person extends Moveable {
             case Health.Infected:
                 this.setFrame(1);
                 this.infectionTime = 10+Phaser.Math.Between(0,10);
+                new PoofEmitter(this.castScene,this.castScene.particleSystem,this.x,this.y,[0,1,2],0.09);
                 break;
             case Health.Recovered:
                 this.setFrame(2);
+                new PoofEmitter(this.castScene,this.castScene.particleSystem,this.x,this.y,[3,4,5],0.09);
                 break;
         }
     }

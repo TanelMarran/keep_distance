@@ -1,8 +1,7 @@
 import {PlaygroundScene} from "../PlaygroundScene";
 import Vector2 = Phaser.Math.Vector2;
 import Sprite = Phaser.Physics.Arcade.Sprite;
-import {Person} from "./Person";
-import {sign} from "crypto";
+import {PoofEmitter} from "./PoofEmitter";
 
 export abstract class Moveable extends Sprite {
     castScene : PlaygroundScene;
@@ -28,6 +27,7 @@ export abstract class Moveable extends Sprite {
         this.targetCoord = new Vector2(this.x,this.y);
 
         this.body.setCircle(8,0,0);
+        new PoofEmitter(this.castScene,this.castScene.particleSystem,x,y,[6,7,8],0.1);
         scene.events.on('update',this.pausedUpdate,this);
     }
 
@@ -114,6 +114,7 @@ export abstract class Moveable extends Sprite {
 
     public destroy(fromScene?: boolean): void {
         this.scene.events.removeListener('update',this.pausedUpdate,this);
+        new PoofEmitter(this.castScene,this.castScene.particleSystem,this.x,this.y,[6,7,8],0.1);
         super.destroy();
     }
 

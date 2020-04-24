@@ -2,9 +2,10 @@ import Scene = Phaser.Scene;
 import Text = Phaser.GameObjects.Text;
 import {Health, Person} from "./objects/Person";
 import Group = Phaser.Physics.Arcade.Group;
-import {Doggy} from "./objects/Doggy";
 import {Mouse} from "./objects/Mouse";
-import {Moveable} from "./objects/Moveable";
+import {PoofEmitter} from "./objects/PoofEmitter";
+import ParticleEmitterManager = Phaser.GameObjects.Particles.ParticleEmitterManager;
+import ParticleEmitter = Phaser.GameObjects.Particles.ParticleEmitter;
 
 export class PlaygroundScene extends Scene {
     mouse: Mouse;
@@ -14,6 +15,7 @@ export class PlaygroundScene extends Scene {
     text: Text;
     targetPopulation: number;
     population: number;
+    particleSystem: ParticleEmitterManager;
 
     paused: boolean;
 
@@ -37,12 +39,17 @@ export class PlaygroundScene extends Scene {
         this.load.spritesheet('person_2',require('../sprites/person_2.png'),frameConfig);
         this.load.spritesheet('person_3',require('../sprites/person_3.png'),frameConfig);
         this.load.spritesheet('person_4',require('../sprites/person_4.png'),frameConfig);
+
+        this.load.spritesheet('particles',require('../sprites/particles.png'),frameConfig);
+
         this.load.image('doggy',require('../sprites/doggy.png'));
         this.load.image('wall',require('../sprites/wall.png'));
     }
 
     create(): void {
         this.mouse = new Mouse(this,this.game.input.mousePointer.x, this.game.input.mousePointer.y);
+        this.particleSystem = this.add.particles('particles');
+        this.particleSystem.setDepth(10);
         this.population = 1;
         this.targetPopulation = 1;
         for(var i = 0; i < 1; i++) {
@@ -59,7 +66,8 @@ export class PlaygroundScene extends Scene {
 
     addPerson(): void {
         const image = 'person_'+Phaser.Math.Between(1,4);
-        new Person(this,Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height),image,this.evasionAmount);
+        const coords = [Phaser.Math.Between(0,this.game.scale.width),Phaser.Math.Between(0,this.game.scale.height)]
+        new Person(this,coords[0],coords[1],image,this.evasionAmount);
     }
 
     removePerson(): void {
