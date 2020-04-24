@@ -7,9 +7,9 @@ for (var i = 0; i < graphXticks; i++) {
 }
 
 
-const infected_color = 'rgba(107,185,138)';
-const healthy_color = 'rgb(226,205,90)';
-const recovered_color = 'rgb(204,55,129)';
+const infected_color = '#cc3781';
+const healthy_color = 'rgb(200,243,229)';
+const recovered_color = '#e2cd5a';
 
 export function loadChart(): Chart {
     let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("population-chart");

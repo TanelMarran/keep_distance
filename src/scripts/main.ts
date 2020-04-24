@@ -21,7 +21,7 @@ const config: GameConfig = {
       height: 240,
       zoom: 2
    },
-   backgroundColor: '#CCFFDE',
+   backgroundColor: 'rgb(200,243,229)',
    scene: [PlaygroundScene],
    physics: {default: 'arcade',
    arcade: {
