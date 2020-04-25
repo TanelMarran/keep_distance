@@ -51,3 +51,8 @@ h1 {
     padding: 10px;
     font-family: "Roboto Slab", serif;
 }
+
+img {
+    display: block;
+    margin: auto;
+}

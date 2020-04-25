@@ -73,13 +73,6 @@ export function addData(chart: Chart, label : number | string, data: [number, nu
         dataset.data.push(data[i]);
     }
 
-    /*chart.data.datasets.forEach((dataset) => {
-        if(dataset.data.length > graphXticks) {
-            dataset.data.shift();
-            dataset.data.pop();
-        }
-        dataset.data.push(data);
-    });*/
     chart.update();
 }
 
