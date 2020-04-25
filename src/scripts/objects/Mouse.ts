@@ -2,6 +2,7 @@ import {CircleCollider} from "./CircleCollider";
 import {Doggy} from "./Doggy";
 import {PlaygroundScene} from "../PlaygroundScene";
 import {Health, Person} from "./Person";
+import Vector2 = Phaser.Math.Vector2;
 
 export enum Tool {
     Infect,
@@ -33,14 +34,8 @@ export class Mouse extends CircleCollider {
     }
 
     update(time: number, delta: number): void {
-        if(!Mouse.isMobileDevice()) {
-            this.x = this.scene.input.activePointer.x;
-            this.y = this.scene.input.activePointer.y;
-        } else {
-            if(this.scene.input.activePointer.leftButtonReleased()) {
-                this.useTool();
-            }
-        }
+        this.x = this.scene.input.activePointer.x;
+        this.y = this.scene.input.activePointer.y;
     }
 
     addDoggy(): void {
@@ -50,11 +45,28 @@ export class Mouse extends CircleCollider {
     infect(): void {
         this.x = this.scene.input.activePointer.x;
         this.y = this.scene.input.activePointer.y;
-        this.scene.physics.overlap(this,this.castScene.peopleGroup,function (self: Mouse, other: Person) {
-            if(other.health == Health.Healthy) {
-                other.setHealth(Health.Infected);
+        if(Mouse.isMobileDevice()) { //Mobile needs a different approach
+            let closest: Person = null;
+            for (let p of this.castScene.peopleGroup.getChildren()) {
+                const person : Person = <Person>p;
+                if(closest == null) {
+                    closest = person;
+                } else {
+                    if(new Vector2(this.x - person.x, this.y - person.y).length() < new Vector2(this.x - closest.x, this.y - closest.y).length()) {
+                        closest = person;
+                    }
+                }
             }
-        },null,this.castScene);
+            if (closest.health == Health.Healthy && new Vector2(this.x - closest.x, this.y - closest.y).length() < 20) {
+                closest.setHealth(Health.Infected);
+            }
+        } else {
+            this.scene.physics.overlap(this, this.castScene.peopleGroup, function (self: Mouse, other: Person) {
+                if (other.health == Health.Healthy) {
+                    other.setHealth(Health.Infected);
+                }
+            }, null, this.castScene);
+        }
     }
 
     //Source: https://coderwall.com/p/i817wa/one-line-function-to-detect-mobile-devices-with-javascript
