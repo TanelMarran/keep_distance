@@ -18,7 +18,7 @@ export class Mouse extends CircleCollider {
         this.body.setCircle(3,12.5,12.5);
         this.currentTool = Tool.Infect;
         scene.events.on('update',this.update,this);
-        scene.input.on('pointerdown', this.useTool,this);
+        scene.input.on('pointerdown',this.useTool,this);
     }
 
     useTool(): void {
@@ -33,15 +33,17 @@ export class Mouse extends CircleCollider {
     }
 
     update(time: number, delta: number): void {
-        this.x = this.scene.input.mousePointer.x;
-        this.y = this.scene.input.mousePointer.y;
+        this.x = this.scene.input.activePointer.x;
+        this.y = this.scene.input.activePointer.y;
     }
 
     addDoggy(): void {
-        new Doggy(this.scene,this.x,this.y);
+        new Doggy(this.scene,this.scene.input.activePointer.x,this.scene.input.activePointer.y);
     }
 
     infect(): void {
+        this.x = this.scene.input.activePointer.x;
+        this.y = this.scene.input.activePointer.y;
         this.scene.physics.overlap(this,this.castScene.peopleGroup,function (self: Mouse, other: Person) {
             if(other.health == Health.Healthy) {
                 other.setHealth(Health.Infected);

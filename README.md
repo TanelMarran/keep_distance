@@ -4,14 +4,18 @@ A game about flattening the curve made with [Phaser 3](https://phaser.io/).
 
 ## Running Locally
 
-Make sure you have [Node.js](http://nodejs.org/) installed. Also yarn!
+Make sure you have [Node.js](http://nodejs.org/) and [Yarn](https://yarnpkg.com/) installed.
 
 ```sh
-git clone https://github.com/TanelMarran/keep_distance.git # or clone your own fork
+git clone https://github.com/TanelMarran/keep_distance.git
 cd keep_distance
 yarn install
 yarn run start
 ```
+
+##Try it out
+
+Link to app demo: https://keep-distance.herokuapp.com/
 
 ## Process
 
