@@ -33,8 +33,14 @@ export class Mouse extends CircleCollider {
     }
 
     update(time: number, delta: number): void {
-        this.x = this.scene.input.activePointer.x;
-        this.y = this.scene.input.activePointer.y;
+        if(!Mouse.isMobileDevice()) {
+            this.x = this.scene.input.activePointer.x;
+            this.y = this.scene.input.activePointer.y;
+        } else {
+            if(this.scene.input.activePointer.leftButtonReleased()) {
+                this.useTool();
+            }
+        }
     }
 
     addDoggy(): void {
@@ -49,5 +55,10 @@ export class Mouse extends CircleCollider {
                 other.setHealth(Health.Infected);
             }
         },null,this.castScene);
+    }
+
+    //Source: https://coderwall.com/p/i817wa/one-line-function-to-detect-mobile-devices-with-javascript
+    static isMobileDevice(): boolean {
+        return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
     }
 }
