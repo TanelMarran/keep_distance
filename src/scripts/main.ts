@@ -56,6 +56,9 @@ window.onload = () => {
    const behaviour_button: HTMLElement = document.getElementById('behaviour-button');
    behaviour_button.onclick = () => toggleBehaviour(behaviour_button);
 
+   const git_button: HTMLElement = document.getElementById('git');
+   git_button.onclick = () => openInNewTab("https://github.com/TanelMarran/keep_distance");
+
    function toggleBehaviour(behaviour_button: HTMLElement) {
       if(isDistancing) {
          (<PlaygroundScene>game.scene.getScene('PlaygroundScene')).setDistancing(false);
@@ -165,5 +168,11 @@ window.onload = () => {
          c_value = unescape(c_value.substring(c_start,c_end));
       }
       return c_value;
+   }
+
+   //Source: https://stackoverflow.com/questions/4907843/open-a-url-in-a-new-tab-and-not-a-new-window
+   function openInNewTab(url) {
+      var win = window.open(url, '_blank');
+      win.focus();
    }
 };

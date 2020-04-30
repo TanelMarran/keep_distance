@@ -4,6 +4,25 @@ body {
     color: #23191a;
 }
 
+h1 {
+    font-family: "Roboto Slab", serif;
+    font-size: 2em;
+    margin-top: 12px;
+}
+
+#doggy {
+    display: inline;
+    height: 2em;
+    width: auto;
+    vertical-align: middle;
+    transform-origin: center center;
+}
+
+#people-amount {
+    height: 23px;
+    width: 30%;
+}
+
 canvas {
     padding-left: 0;
     padding-right: 0;
@@ -20,18 +39,20 @@ button:hover {
     background: #a9cbbf;
 }
 
+#tools div {
+    margin-bottom: 10px;
+    vertical-align: middle;
+}
+
 button {
-    border-radius: 50%;
-    height: 60px;
+    border-radius: 5%;
+    height: 30px;
     width: 60px;
     background: #C8F3E5;
     outline: none;
     border: none;
     font-family: "Roboto Slab", serif;
-}
-
-h1 {
-    font-family: "Roboto Slab", serif;
+    transition: background 100ms ease-in;
 }
 
 .column {
@@ -52,7 +73,8 @@ h1 {
     font-family: "Roboto Slab", serif;
 }
 
-img {
+#git {
     display: block;
     margin: auto;
+    cursor: pointer;
 }
